@@ -11,11 +11,19 @@ from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from fastapi.staticfiles import StaticFiles
+from fastapi.middleware.cors import CORSMiddleware
 from llms import ChatOpenAI, Solar
 from pydantic import BaseModel
 from retrievers import BM25VectorStore, MetadataVectorStore, TextChunkVectorStore
 
 app = FastAPI(title="LangChain Server for RAG")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all methods
+    allow_headers=["*"],  # Allows all headers
+)
 
 security = HTTPBasic()
 
